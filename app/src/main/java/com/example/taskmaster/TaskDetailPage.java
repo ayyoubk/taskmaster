@@ -17,5 +17,13 @@ public class TaskDetailPage extends AppCompatActivity {
         String title = intent.getExtras().getString("title");
         TextView taskTitle = findViewById(R.id.taskdetailhead);
         taskTitle.setText(title);
+
+        String body = intent.getExtras().getString("body");
+        TextView taskBody = findViewById(R.id.taskBodyId);
+        taskBody.setText(body);
+
+        String state = intent.getExtras().getString("state");
+        TextView taskState = findViewById(R.id.StateId);
+        taskState.setText(state);
     }
 }
