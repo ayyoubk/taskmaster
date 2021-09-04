@@ -31,3 +31,17 @@
 
 - Refactor your homepage to use a RecyclerView for displaying Task data. This should have hardcoded Task data for now.
   - <img src="/screenshots/lab-28.jpg" alt="drawing" width="150"/>
+  
+  
+## Lab-29
+
+**Task Model and Room -> Following the directions provided in the Android documentation, set up Room in your application, and modify your Task class to be an Entity.**
+
+- Add Task Form -> Modify your Add Task form to save the data entered in as a Task in your local database.
+  - <img src="/screenshots/addNewTask.png" alt="drawing" width="150"/>
+- Homepage -> Refactor your homepage’s RecyclerView to display all Task and add task button.
+  - <img src="/screenshots/home.png" alt="drawing" width="150"/>
+- Detail Page -> Ensure that the description and status of a tapped task are also displayed on the detail page, in addition to the title. (Note that you can accomplish this by passing along the entire Task entity, or by passing along only its ID in the intent.)
+  - <img src="/screenshots/oneTask.png" alt="drawing" width="150"/>
+- All Tasks
+  - <img src="/screenshots/alltasks.png" alt="drawing" width="150"/>
