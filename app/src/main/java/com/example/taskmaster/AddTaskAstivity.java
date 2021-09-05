@@ -3,6 +3,7 @@ package com.example.taskmaster;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,8 +21,8 @@ public class AddTaskAstivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_task_astivity);
 //        Toast.makeText(getApplicationContext(), "onCreate callback!", Toast.LENGTH_SHORT).show();
         AppDB appDB = Room.databaseBuilder(getApplicationContext(), AppDB.class, "tasks").allowMainThreadQueries().build();
-        TextView totalTasks = findViewById(R.id.sumOfTasks);
         TaskDao taskDao = appDB.taskDao();
+        TextView totalTasks = findViewById(R.id.sumOfTasks);
         totalTasks.setText("Total Tasks: " + taskDao.getAllTasks().size());
 
 
@@ -38,6 +39,10 @@ public class AddTaskAstivity extends AppCompatActivity {
                 String taskState = stateInput.getText().toString();
                 Task newTask = new Task(taskTitle, taskBody, taskState);
                 taskDao.insertAll(newTask);
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+
             }
         });
     }
