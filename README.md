@@ -45,3 +45,13 @@
   - <img src="/screenshots/oneTask.png" alt="drawing" width="150"/>
 - All Tasks
   - <img src="/screenshots/alltasks.png" alt="drawing" width="150"/>
+
+## Lab-31
+
+- Add Espresso to your application, and use it to test basic functionality of the main components of your application. For example:
+
+  - assert that important UI elements are displayed on the page
+  - tap on a task, and assert that the resulting activity displays the name of that task
+  - edit the user’s username, and assert that it says the correct thing on the homepage
+  
+- [Tests](app/src/androidTest/java/com/example/taskmaster)
