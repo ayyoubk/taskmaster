@@ -62,3 +62,6 @@
 - Add Task Form -> Modify your Add Task form to save the data entered in as a Task to DynamoDB.
 - All Tasks Page -> Refactor RecyclerView to display all Task entities in DynamoDB.
 
+## Lab-33
+
+- Tasks Are Owned By Teams -> Created a second entity for a team, which has a name and a list of tasks. Task updated to be owned by a team.

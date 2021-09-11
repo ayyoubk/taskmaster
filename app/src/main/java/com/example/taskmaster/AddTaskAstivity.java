@@ -3,8 +3,13 @@ package com.example.taskmaster;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,17 +18,46 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.datastore.generated.model.Todo;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class AddTaskAstivity extends AppCompatActivity {
+    List<Team> teamsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task_astivity);
+        setTitle("Add Task");
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(AddTaskAstivity.this);
+        String teamName = sharedPreferences.getString("team", "Team 1");
+        teamsList = new ArrayList<>();
+
+
+        Amplify.API.query(
+                ModelQuery.list(Team.class),
+                response -> {
+                    for (Team t : response.getData()) {
+                        teamsList.add(t);
+                    }
+                },
+                error -> Log.e("MyAmplifyApp", "Team Query failure", error)
+        );
+
+        Team team=null;
+        for (Team t : teamsList) {
+            if(t.getName().equals(teamName)){
+                team=t;
+                System.out.println(t.getName());
+                return;
+            }
+        }
 //        Toast.makeText(getApplicationContext(), "onCreate callback!", Toast.LENGTH_SHORT).show();
 //        AppDB appDB = Room.databaseBuilder(getApplicationContext(), AppDB.class, "tasks").allowMainThreadQueries().build();
 //        TaskDao taskDao = appDB.taskDao();
@@ -32,6 +66,7 @@ public class AddTaskAstivity extends AppCompatActivity {
 
 
         Button addBtn = findViewById(R.id.addTaskButton);
+//        Team finalTeam = team;
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,11 +79,19 @@ public class AddTaskAstivity extends AppCompatActivity {
                 String taskState = stateInput.getText().toString();
                 Task newTask = new Task(taskTitle, taskBody, taskState);
 //                taskDao.insertAll(newTask);
-
+                Team team=null;
+                for (Team t : teamsList) {
+                    if(t.getName().equals(teamName)){
+                        team=t;
+                        System.out.println(t.getName());
+                        break;
+                    }
+                }
                 Todo task = Todo.builder()
                         .title(taskTitle)
                         .bode(taskBody)
                         .state(taskState)
+                        .team(team)
                         .build();
 
                 Amplify.API.mutate(

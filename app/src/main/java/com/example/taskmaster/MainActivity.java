@@ -20,11 +20,12 @@ import com.amplifyframework.core.Amplify;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
+    String teamName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("Task Master");
 
         try {
             // Add these lines to add the AWSApiPlugin plugins
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent toAddActivity = new Intent(MainActivity.this, AddTaskAstivity.class);
+
                 startActivity(toAddActivity);
             }
         });
@@ -72,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         String headerTitle = "User's Tasks";
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+//        teamName = sharedPreferences.getString("userName", "User");
         String userName = sharedPreferences.getString("userName", "User");
 
         TextView headerElement = findViewById(R.id.headTitle);
