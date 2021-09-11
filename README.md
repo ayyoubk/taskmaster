@@ -55,3 +55,13 @@
   - edit the user’s username, and assert that it says the correct thing on the homepage
   
 - [Tests](app/src/androidTest/java/com/example/taskmaster)
+
+## Lab-32
+
+- Tasks Are Cloudy
+- Add Task Form -> Modify your Add Task form to save the data entered in as a Task to DynamoDB.
+- All Tasks Page -> Refactor RecyclerView to display all Task entities in DynamoDB.
+
+## Lab-33
+
+- Tasks Are Owned By Teams -> Created a second entity for a team, which has a name and a list of tasks. Task updated to be owned by a team.

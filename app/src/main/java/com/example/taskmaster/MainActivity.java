@@ -8,24 +8,41 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.core.Amplify;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
+    String teamName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("Task Master");
+
+        try {
+            // Add these lines to add the AWSApiPlugin plugins
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.configure(getApplicationContext());
+
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
 
         Button addTaskButton = findViewById(R.id.addButton);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent toAddActivity = new Intent(MainActivity.this, AddTaskAstivity.class);
+
                 startActivity(toAddActivity);
             }
         });
@@ -49,14 +66,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        ArrayList<Task> tasks = new ArrayList<Task>();
-//        tasks.add(new Task("Read Task", "description", "complete"));
-//        tasks.add(new Task("Lab Task", "description", "in progress"));
-//        tasks.add(new Task("C.C Task", "description", "assigned"));
-//
-//        RecyclerView tasksRecyclerView = findViewById(R.id.recycleId);
-//        tasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        tasksRecyclerView.setAdapter(new TaskAdapter(tasks));
     }
 
     @Override
@@ -65,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         String headerTitle = "User's Tasks";
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+//        teamName = sharedPreferences.getString("userName", "User");
         String userName = sharedPreferences.getString("userName", "User");
 
         TextView headerElement = findViewById(R.id.headTitle);

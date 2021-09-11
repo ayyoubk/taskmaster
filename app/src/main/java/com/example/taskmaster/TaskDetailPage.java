@@ -12,7 +12,7 @@ public class TaskDetailPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail_page);
-
+        setTitle("More About Task");
         Intent intent = getIntent();
         String title = intent.getExtras().getString("title");
         TextView taskTitle = findViewById(R.id.taskdetailhead);
