@@ -65,3 +65,22 @@
 ## Lab-33
 
 - Tasks Are Owned By Teams -> Created a second entity for a team, which has a name and a list of tasks. Task updated to be owned by a team.
+  ```graphql
+        type Team @model {
+        id:ID!
+        name:String!
+        teamTasks: [Todo] @connection(keyName: "byTeam" , fields:["id"])
+        }
+        
+        type Todo @model @key(name: "byTeam", fields: ["teamID"]){
+        id: ID!
+        title: String!
+        bode: String
+        state: String
+        teamID: ID!
+        team: Team @connection(fields: ["teamID"])
+        }
+  ```
+  - <img src="/screenshots/tasks.png" alt="task" width="250"/>
+  - <img src="/screenshots/teams.png" alt="team" width="250"/>
+
