@@ -50,6 +50,7 @@ public class AddTaskAstivity extends AppCompatActivity {
                 error -> Log.e("MyAmplifyApp", "Team Query failure", error)
         );
 
+
         Team team=null;
         for (Team t : teamsList) {
             if(t.getName().equals(teamName)){

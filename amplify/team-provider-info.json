@@ -10,6 +10,11 @@
       "StackName": "amplify-tasks-dev-210706",
       "StackId": "arn:aws:cloudformation:eu-central-1:722927914223:stack/amplify-tasks-dev-210706/765d31b0-1006-11ec-bcdf-06dddbd8282e",
       "AmplifyAppId": "d2vz2p9532lzvz"
+    },
+    "categories": {
+      "auth": {
+        "tasks76aae2ba": {}
+      }
     }
   }
 }

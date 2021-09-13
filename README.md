@@ -84,3 +84,12 @@
   - <img src="/screenshots/tasks.png" alt="task" width="250"/>
   - <img src="/screenshots/teams.png" alt="team" width="250"/>
 
+## Lab-36
+
+- User Login -> Add Cognito to your Amplify setup. Add in user login and sign up flows to your application, using Cognito’s pre-built UI as appropriate. Display the logged in user’s username somewhere relevant in your app.
+  - <img src="/screenshots/auth.jpg" alt="drawing" width="150"/>
+
+- User Logout -> Allow users to log out of your application.
+  - <img src="/screenshots/auth1.jpg" alt="drawing" width="150"/>
+
+
