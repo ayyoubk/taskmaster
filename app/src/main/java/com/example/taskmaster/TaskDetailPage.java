@@ -3,6 +3,8 @@ package com.example.taskmaster;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amplifyframework.core.Amplify;
+import com.bumptech.glide.Glide;
 
 import java.io.File;
 
@@ -45,17 +48,19 @@ public class TaskDetailPage extends AppCompatActivity {
 //                },
 //                error -> Log.e("MyAmplifyApp", "URL generation failure", error)
 //        );
-//        Amplify.Storage.downloadFile(
-//                fileKey,
-//                new File(getApplicationContext().getFilesDir() + fileKey),
-//                result -> {
-//                    Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName());
-//                    ImageView image = findViewById(R.id.imageView3);
-//                    Uri x = result.getFile().toURI();
-//                    image.;
-//                },
-//                error -> Log.e("MyAmplifyApp",  "Download Failure", error)
-//        );
+        Amplify.Storage.downloadFile(
+                fileKey,
+                new File(getApplicationContext().getFilesDir() + fileKey),
+                result -> {
+                    Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName());
+                    ImageView image = findViewById(R.id.imageView3);
+                    // https://stackoverflow.com/questions/19172154/convert-a-file-object-to-bitmap
+//                    image.setImageBitmap(BitmapFactory.decodeFile(result.getFile().getPath()));
+                    //https://github.com/bumptech/glide
+                    Glide.with(TaskDetailPage.this).load(result.getFile().getPath()).centerCrop().into(image);
+                },
+                error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+        );
 
     }
 }

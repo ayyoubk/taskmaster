@@ -19,13 +19,12 @@
         app:layout_constraintHorizontal_bias="0.149"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bodyInput"
-        app:layout_constraintVertical_bias="0.207" />
+        app:layout_constraintVertical_bias="0.08" />
 
     <EditText
         android:id="@+id/bodyInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="228dp"
         android:ems="10"
         android:hint="Do Something"
         android:inputType="textPersonName"
@@ -34,8 +33,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.149"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/titleInput"
+        app:layout_constraintVertical_bias="0.117" />
 
     <TextView
         android:id="@+id/textView8"
@@ -47,7 +46,7 @@
         app:layout_constraintHorizontal_bias="0.097"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleInput"
-        app:layout_constraintVertical_bias="0.739" />
+        app:layout_constraintVertical_bias="0.423" />
 
     <TextView
         android:id="@+id/textView3"
@@ -100,9 +99,10 @@
         android:text="ADD TASK"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.848"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.781" />
+        app:layout_constraintVertical_bias="0.91" />
 
     <TextView
         android:id="@+id/sumOfTasks"
@@ -111,20 +111,21 @@
         android:text="Total Tasks: 0"
         app:layout_constraintBottom_toTopOf="@+id/addTaskButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.82"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stateInput"
-        app:layout_constraintVertical_bias="0.795" />
+        app:layout_constraintVertical_bias="0.876" />
 
     <Button
         android:id="@+id/fileBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select File"
-        app:layout_constraintBottom_toTopOf="@+id/sumOfTasks"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.094"
+        app:layout_constraintHorizontal_bias="0.105"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stateInput"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.128" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

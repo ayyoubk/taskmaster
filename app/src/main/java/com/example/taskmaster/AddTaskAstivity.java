@@ -66,14 +66,24 @@ public class AddTaskAstivity extends AppCompatActivity {
             if (t.getName().equals(teamName)) {
                 team = t;
                 System.out.println(t.getName());
+                TextView totalTasks = findViewById(R.id.sumOfTasks);
+                Team finalTeam = team;
+                runOnUiThread(new Runnable() {
+                                  @SuppressLint("SetTextI18n")
+                                  @Override
+                                  public void run() {
+                                      totalTasks.setText("Total Tasks: " + finalTeam.getTeamTasks().size());
+
+                                  }
+                              });
                 return;
             }
         }
 //        Toast.makeText(getApplicationContext(), "onCreate callback!", Toast.LENGTH_SHORT).show();
 //        AppDB appDB = Room.databaseBuilder(getApplicationContext(), AppDB.class, "tasks").allowMainThreadQueries().build();
 //        TaskDao taskDao = appDB.taskDao();
-        TextView totalTasks = findViewById(R.id.sumOfTasks);
-//        totalTasks.setText("Total Tasks: " + taskDao.getAllTasks().size());
+//        TextView totalTasks = findViewById(R.id.sumOfTasks);
+//        totalTasks.setText("Total Tasks: " + team.getTeamTasks().size());
 
 
         Button addBtn = findViewById(R.id.addTaskButton);
