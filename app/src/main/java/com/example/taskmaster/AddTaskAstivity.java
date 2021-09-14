@@ -1,15 +1,19 @@
 package com.example.taskmaster;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,12 +27,19 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.datastore.generated.model.Todo;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class AddTaskAstivity extends AppCompatActivity {
     List<Team> teamsList;
+    String fileName;
+    Uri dataUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +49,6 @@ public class AddTaskAstivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(AddTaskAstivity.this);
         String teamName = sharedPreferences.getString("team", "Team 1");
         teamsList = new ArrayList<>();
-
 
         Amplify.API.query(
                 ModelQuery.list(Team.class),
@@ -51,10 +61,10 @@ public class AddTaskAstivity extends AppCompatActivity {
         );
 
 
-        Team team=null;
+        Team team = null;
         for (Team t : teamsList) {
-            if(t.getName().equals(teamName)){
-                team=t;
+            if (t.getName().equals(teamName)) {
+                team = t;
                 System.out.println(t.getName());
                 return;
             }
@@ -67,6 +77,7 @@ public class AddTaskAstivity extends AppCompatActivity {
 
 
         Button addBtn = findViewById(R.id.addTaskButton);
+        Button fileBtn = findViewById(R.id.fileBtn);
 //        Team finalTeam = team;
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,10 +91,25 @@ public class AddTaskAstivity extends AppCompatActivity {
                 String taskState = stateInput.getText().toString();
                 Task newTask = new Task(taskTitle, taskBody, taskState);
 //                taskDao.insertAll(newTask);
-                Team team=null;
+
+                try {
+                    if (dataUri!=null){
+                        InputStream exampleInputStream = getContentResolver().openInputStream(dataUri);
+                        Amplify.Storage.uploadInputStream(
+                                fileName,
+                                exampleInputStream,
+                                result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+                                storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+                        );
+                    }
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                Team team = null;
                 for (Team t : teamsList) {
-                    if(t.getName().equals(teamName)){
-                        team=t;
+                    if (t.getName().equals(teamName)) {
+                        team = t;
                         System.out.println(t.getName());
                         break;
                     }
@@ -92,6 +118,7 @@ public class AddTaskAstivity extends AppCompatActivity {
                         .title(taskTitle)
                         .bode(taskBody)
                         .state(taskState)
+                        .fileKey(fileName)
                         .team(team)
                         .build();
 
@@ -107,6 +134,51 @@ public class AddTaskAstivity extends AppCompatActivity {
 
             }
         });
+
+        fileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pickFile();
+
+            }
+        });
+
     }
 
+    private void uploadFile() {
+        File exampleFile = new File(getApplicationContext().getFilesDir(), "ExampleKey");
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(exampleFile));
+            writer.append("Example file contents");
+            writer.close();
+        } catch (Exception exception) {
+            Log.e("MyAmplifyApp", "Upload failed", exception);
+        }
+
+        Amplify.Storage.uploadFile(
+                "ExampleKey",
+                exampleFile,
+                result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+                storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+        );
+    }
+
+    private void pickFile() {
+        Intent selctedFile = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        selctedFile.setType(("*/*"));
+        selctedFile = Intent.createChooser(selctedFile, "Select File");
+        startActivityForResult(selctedFile, 1234);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        dataUri = data.getData();
+        File file = new File(dataUri.getPath());
+        fileName = file.getName();
+
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

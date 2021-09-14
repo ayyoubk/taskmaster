@@ -3,6 +3,7 @@ type Todo @model @key(name: "byTeam", fields: ["teamID"]){
     title: String!
     bode: String
     state: String
+    fileKey: String
     teamID: ID!
     team: Team @connection(fields: ["teamID"])
 }
