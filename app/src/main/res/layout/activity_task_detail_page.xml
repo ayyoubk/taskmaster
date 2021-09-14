@@ -25,10 +25,10 @@
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis orci odio, sodales id sodales in, pretium nec odio. Integer rhoncus suscipit gravida. Vestibulum auctor, mi et feugiat tristique, justo neque aliquet tellus, et suscipit dolor turpis at turpis. Proin id ex vitae lorem vehicula venenatis."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/taskdetailhead"
-        app:layout_constraintVertical_bias="0.16" />
+        app:layout_constraintVertical_bias="0.132" />
 
     <TextView
         android:id="@+id/StateId"
@@ -41,4 +41,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/taskdetailhead"
         app:layout_constraintVertical_bias="0.588" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="275dp"
+        android:layout_height="232dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/taskBodyId"
+        app:layout_constraintVertical_bias="0.225"
+        app:srcCompat="@drawable/ic_launcher_background" />
 </androidx.constraintlayout.widget.ConstraintLayout>

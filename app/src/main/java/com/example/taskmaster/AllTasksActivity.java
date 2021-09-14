@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.Button;
 
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Team;
 import com.amplifyframework.datastore.generated.model.Todo;
 
 import java.util.ArrayList;
@@ -68,12 +70,17 @@ public class AllTasksActivity extends AppCompatActivity {
 //                return false;
 //            }
 //        });
+        RecyclerView allTasksRecyclerView = findViewById(R.id.recycleId);
 
+        @SuppressLint("NotifyDataSetChanged") Handler handler = new Handler(Looper.getMainLooper(), msg -> {
+            Objects.requireNonNull(allTasksRecyclerView.getAdapter()).notifyDataSetChanged();
+            return false;
+        });
         Amplify.API.query(
-                ModelQuery.list(com.amplifyframework.datastore.generated.model.Todo.class),
+                ModelQuery.get(Team.class,teamId),
                 response -> {
-                    for (Todo t : response.getData()) {
-                        if(t.getTeam().getId().equals("ecd9eee8-b555-4b0a-b5d4-e0bfb1b0a210")){
+                    for (Todo t : response.getData().getTeamTasks()) {
+                        if(t.getTeam().getId().equals(teamId)){
                             tasksList.add(t);
                         }
                         Log.i("MyAmplifyApp", t.getTitle());
@@ -81,6 +88,8 @@ public class AllTasksActivity extends AppCompatActivity {
                         Log.i("MyAmplifyApp", t.getTeam().getId().getClass().toString());
                         Log.i("MyAmplifyApp", t.getTeam().getId());
                     }
+                    handler.sendEmptyMessage(1);
+
 //                    RecyclerView allTasksRecyclerView = findViewById(R.id.recycleId);
 //                    allTasksRecyclerView.setLayoutManager(new LinearLayoutManager(AllTasksActivity.this));
 //                    allTasksRecyclerView.setAdapter(new TaskAdapter(tasksList));

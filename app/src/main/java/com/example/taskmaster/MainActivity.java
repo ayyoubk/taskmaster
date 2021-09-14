@@ -22,6 +22,7 @@ import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.auth.options.AuthSignOutOptions;
 import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 
 import java.util.ArrayList;
 
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle("Task Master");
-        Toast.makeText(getApplicationContext(), "onCreate !!!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "onCreate !!!", Toast.LENGTH_SHORT).show();
 
         loginBtn = findViewById(R.id.loginBtn);
         logoutBtn = findViewById(R.id.logoutBtn);
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
             Amplify.addPlugin(new AWSApiPlugin());
             // Add this line, to include the Auth plugin.
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            // To include the S3 Storage plugin.
+            Amplify.addPlugin(new AWSS3StoragePlugin());
             Amplify.configure(getApplicationContext());
 
 //            AuthSignUpOptions options = AuthSignUpOptions.builder()
@@ -133,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
                                                 }
                                             }
                                         });
+                                        finish();
+                                        startActivity(getIntent());
                                     },
                                     error -> Log.e("AmplifyQuickstart", error.toString())
                             );
@@ -140,9 +145,8 @@ public class MainActivity extends AppCompatActivity {
                         error -> Log.e("AuthQuickStart", error.toString())
                 );
 
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
+
+
             }
         });
 
@@ -151,12 +155,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Amplify.Auth.signOut(
                         AuthSignOutOptions.builder().globalSignOut(true).build(),
-                        () -> Log.i("AuthQuickstart", "Signed out globally"),
+                        () -> {
+                            Log.i("AuthQuickstart", "Signed out globally");
+                            finish();
+                            startActivity(getIntent());
+                        },
                         error -> Log.e("AuthQuickstart", error.toString())
                 );
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
             }
         });
 
@@ -200,26 +205,26 @@ public class MainActivity extends AppCompatActivity {
 //        }else {
 //            headerElement.setText(userName + "\'s Tasks");
 //        }
-        Toast.makeText(getApplicationContext(), "OnStart !!!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "OnStart !!!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Toast.makeText(getApplicationContext(), "onStop !!!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "onStop !!!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Toast.makeText(getApplicationContext(), "onRestart !!!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "onRestart !!!", Toast.LENGTH_SHORT).show();
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(getApplicationContext(), "onResume !!!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "onResume !!!", Toast.LENGTH_SHORT).show();
 
         String headerTitle = "User's Tasks";
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);

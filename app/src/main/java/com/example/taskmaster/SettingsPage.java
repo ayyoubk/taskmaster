@@ -45,10 +45,10 @@ public class SettingsPage extends AppCompatActivity {
         CompletableFuture.supplyAsync(() -> {
             teamsList = new ArrayList<>();
 
-//            @SuppressLint("NotifyDataSetChanged") Handler handler = new Handler(Looper.getMainLooper(), msg -> {
-//                Objects.requireNonNull(teamsRecyclerView.getAdapter()).notifyDataSetChanged();
-//                return false;
-//            });
+            @SuppressLint("NotifyDataSetChanged") Handler handler = new Handler(Looper.getMainLooper(), msg -> {
+                Objects.requireNonNull(teamsRecyclerView.getAdapter()).notifyDataSetChanged();
+                return false;
+            });
 
             Amplify.API.query(
                     ModelQuery.list(Team.class),
@@ -56,7 +56,7 @@ public class SettingsPage extends AppCompatActivity {
                         for (Team t : response.getData()) {
                             teamsList.add(t);
                         }
-//                        handler.sendEmptyMessage(1);
+                        handler.sendEmptyMessage(1);
                     },
                     error -> Log.e("MyAmplifyApp", "Team Query failure", error)
             );
