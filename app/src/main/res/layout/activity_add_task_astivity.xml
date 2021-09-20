@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".AddTaskAstivity">
 
+    <Button
+        android:id="@+id/locationBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Location"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.618"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stateInput"
+        app:layout_constraintVertical_bias="0.127" />
+
     <EditText
         android:id="@+id/stateInput"
         android:layout_width="wrap_content"
