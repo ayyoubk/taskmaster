@@ -1,22 +1,33 @@
 package com.example.taskmaster;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.amplifyframework.core.Amplify;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
 
-public class TaskDetailPage extends AppCompatActivity {
+public class TaskDetailPage extends AppCompatActivity implements OnMapReadyCallback {
+    GoogleMap googleMap;
+
+    private double latitude;
+    private double longitude;
+
+    private FusedLocationProviderClient fusedLocationProviderClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +49,18 @@ public class TaskDetailPage extends AppCompatActivity {
 
         String fileKey = intent.getExtras().getString("fileKey");
 
-//        Amplify.Storage.getUrl(
-//                fileKey,
-//                result -> {
-//                    Log.i("MyAmplifyApp", "Successfully generated: " + result.getUrl());
-//                    ImageView image = findViewById(R.id.imageView3);
-////                    image.setImageURI(Uri.parse(result.getUrl().getPath()));
-//                    image.set;
-//                },
-//                error -> Log.e("MyAmplifyApp", "URL generation failure", error)
-//        );
+        latitude = intent.getExtras().getDouble("latitude");
+        longitude = intent.getExtras().getDouble("longitude");
+
+
+        // Get the SupportMapFragment and request notification when the map is ready to be used.
+        if (latitude == 0 && longitude == 0) {
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
+        }
+
+
         Amplify.Storage.downloadFile(
                 fileKey,
                 new File(getApplicationContext().getFilesDir() + fileKey),
@@ -59,8 +72,25 @@ public class TaskDetailPage extends AppCompatActivity {
                     //https://github.com/bumptech/glide
                     Glide.with(TaskDetailPage.this).load(result.getFile().getPath()).centerCrop().into(image);
                 },
-                error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+                error -> Log.e("MyAmplifyApp", "Download Failure", error)
         );
 
     }
+
+
+    @SuppressLint("MissingPermission")
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        // Add a marker in Sydney, Australia,
+        // and move the map's camera to the same location.
+        LatLng location = new LatLng(latitude, longitude);
+        googleMap.addMarker(new MarkerOptions()
+                .position(location)
+                .title("Location"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+    }
+
+
 }
+

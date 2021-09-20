@@ -4,6 +4,8 @@ type Todo @model @key(name: "byTeam", fields: ["teamID"]){
     bode: String
     state: String
     fileKey: String
+    latitude: Float
+    longitude: Float
     teamID: ID!
     team: Team @connection(fields: ["teamID"])
 }
